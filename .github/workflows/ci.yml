@@ -1,0 +1,24 @@
+name: CI-Pipeline
+
+on: [push, pull_request]  # Startet bei Änderungen
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Nutzt Linux als Umgebung
+    steps:
+      - name: Repository abrufen
+        uses: actions/checkout@v3  # Lädt Code ins CI-System
+
+      - name: Python installieren
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"  # Setzt Python-Version
+
+      - name: Abhängigkeiten installieren
+        run: pip install -r requirements.txt
+
+      - name: Linting prüfen
+        run: flake8 .  # Sucht Code-Fehler
+
+      - name: Tests ausführen
+        run: pytest  # Führt Tests aus
